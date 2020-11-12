@@ -4,7 +4,7 @@ module.exports = {
         const Zapi = req.Zapi
 
         try{
-          Zapi.click('div[class="_2pf2n"]');
+          await Zapi.click('div[class="_2pf2n"]');
         } catch (error){
 
         }
