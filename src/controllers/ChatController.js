@@ -21,7 +21,7 @@ module.exports = {
 
       await Zapi.click('div[class="_2kHpK"]')
   
-      return res.send().status(200)
+      return res.send({message:'Chat opened',status:1}).status(200)
     } catch(error) {
       next(error)
     }
@@ -69,7 +69,7 @@ module.exports = {
         });
         return arrayMessages;
       })
-      return res.send({messages:messages}).status(200)
+      return res.send({messages:messages,status:1}).status(200)
       
     } catch(error){
       next(error)
@@ -105,7 +105,7 @@ module.exports = {
       
       await Zapi.keyboard.press('Enter')
       
-      return res.send({message:'Mensagem enviada!'}).status(200)
+      return res.send({message:'Message sent',status:1}).status(200)
       
     } catch(error){
       next(error)

@@ -7,6 +7,6 @@ module.exports = (req, res, next) => {
             next()
         }
     } catch (error){
-        return res.send({error:'Could not check the browser'}).status(500)
+        return res.send({error:'Browser is closed',status:0}).status(500)
     }   
 }

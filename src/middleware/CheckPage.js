@@ -11,7 +11,7 @@ module.exports = {
             next()
             
         } catch (error){
-            return res.send({error:'Whatsapp is not connected'}).status(500)
+            return res.send({error:'Whatsapp is not connected',status:0}).status(500)
         }   
     },
     async isAuthPage(req, res, next) {
@@ -27,7 +27,7 @@ module.exports = {
             next()
             
         } catch (error){
-            return res.send({error:'QRCode is not attached to the page'}).status(500)
+            return res.send({error:'QRCode is not attached to the page',status:0}).status(500)
         }   
     }
 }

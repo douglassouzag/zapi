@@ -11,7 +11,7 @@ const port = args.port;
 
 (async () => {
 	const browser = await puppeteer.launch({ 
-		headless: true, 
+		headless: false, 
 		executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
 		userDataDir: '../sessions/' + port
 	});
