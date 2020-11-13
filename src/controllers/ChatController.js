@@ -46,7 +46,11 @@ module.exports = {
         visible: true
       })
 
-      await Zapi.click('div[class="_2kHpK"]')
+      try{
+        await Zapi.click('div[class="_2kHpK"]')
+      } catch (error) {
+        return res.send({error:'Chat not found',status:0}).status(200)
+      }
 
       const messages = await Zapi.evaluate(() => {
         var arrayMessages = [];
@@ -96,16 +100,37 @@ module.exports = {
         visible: true
       })
       
-      await Zapi.click('div[class="_2kHpK"]')
+      try{
+        await Zapi.click('div[class="_2kHpK"]')
+        await Zapi.waitForSelector('div[class="_3uMse"]',{
+          visible:true
+        })
+        await Zapi.type('div[class="_3uMse"]',message)
+        
+        await Zapi.keyboard.press('Enter')
+        
+        return res.send({message:'Message sent',status:1}).status(200)
+      } catch (error){
+        const newChatlink = 'https://api.whatsapp.com/send?phone='+phoneNumber+'&text='+message
+        
+        await Zapi.goto(newChatlink,{
+          waitUntil: 'load'
+        })
+        await Zapi.waitForSelector('#action-button')
+        await Zapi.click('#action-button')
+        
+        await Zapi.waitForSelector('div[class="_8ibw"] a[class="_36or"]')
+        
+        await Zapi.evaluate(() => {
+          document.querySelector('div[class="_8ibw"] a[class="_36or"]').click();
+        })
+        await Zapi.waitForSelector('div[class="_3uMse"]',{
+          visible:true
+        })
+        await Zapi.keyboard.press('Enter')
+        return res.send({message:'Message sent',status:1}).status(200)
+      }
       
-      await Zapi.waitForSelector('div[class="_3uMse"]',{
-        visible:true
-      })
-      await Zapi.type('div[class="_3uMse"]',message)
-      
-      await Zapi.keyboard.press('Enter')
-      
-      return res.send({message:'Message sent',status:1}).status(200)
       
     } catch(error){
       next(error)
