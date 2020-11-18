@@ -11,6 +11,7 @@ const port = args.port;
 
 (async () => {
 	const browser = await puppeteer.launch({ 
+		defaultViewport: null,
 		headless: true, 
 		executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
 		userDataDir: './sessions/' + port
@@ -18,7 +19,21 @@ const port = args.port;
 	const page = await browser.newPage();
 	await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36');	
 	await page.goto('https://web.whatsapp.com/', {waitUntil: 'load'});
+
+	await page.evaluate(()=>{
+		function getDetails(){
+			try{
+				return document.querySelector('.m7liR').click();
+			} catch {
+				return
+			}
+		}
+		messageLoop = setInterval(getDetails,100);
+	})
+
+
   	global.Zapi = page;
+  	global.Browser = browser;
 })();
 
 app.use(cors())

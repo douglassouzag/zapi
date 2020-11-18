@@ -135,5 +135,53 @@ module.exports = {
     } catch(error){
       next(error)
     }
+  },
+  async watchForNewMessages(req, res, next) {
+    try {
+      const Zapi = req.Zapi
+
+      await Zapi.evaluate(() => {
+        function getNewMessages(){
+
+          try{
+              const clickEvent = new MouseEvent('mousedown', {
+                  view: window,
+                  bubbles: true,
+                  cancelable: true
+              });
+          
+              const notificationArray = document.querySelectorAll('._31gEB')
+              notificationArray.forEach(n=>{
+                  n.dispatchEvent(clickEvent);
+              })
+              return
+          } catch(error){
+              return
+          }
+      }
+      messageLoop = setInterval(getNewMessages,100);
+      })
+      
+    return res.send({message:'Watching for new messages',status:1}).status(200)
+      
+      
+    } catch(error){
+      next(error)
+    }
+  },
+  async stopWatchingForNewMessages(req, res, next) {
+    try {
+      const Zapi = req.Zapi
+
+      await Zapi.evaluate(() => {
+        clearInterval(messageLoop);
+      })
+      
+    return res.send({message:'Stopping watch for new messages',status:1}).status(200)
+      
+      
+    } catch(error){
+      next(error)
+    }
   }
 }
