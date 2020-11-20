@@ -1,10 +1,10 @@
 const args = require('yargs').argv;
-const puppeteer = require('puppeteer');
-const port = args.port;
 module.exports = {
   async close(req, res, next) {
     try {
-			await req.Zapi.close();
+      const Zapi = req.Zapi
+
+      await Zapi.closePage()
       return res.send({message:'Page closed',status:1}).status(200)
     } catch(error) {
       next(error)
@@ -12,7 +12,9 @@ module.exports = {
   },
   async kill(req, res, next) {
     try {
-			await req.Browser.close();
+      const Zapi = req.Zapi
+    
+      await Zapi.closeBrowser()
       return res.send({message:'Browser closed',status:1}).status(200)
     } catch(error) {
       next(error)
@@ -20,16 +22,8 @@ module.exports = {
   },
   async start(req, res, next) {
     try {
-		const browser = await puppeteer.launch({ 
-			headless: false, 
-			executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
-			userDataDir: './sessions/' + port
-		});
-		const page = await browser.newPage();
-		await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36');	
-		await page.goto('https://web.whatsapp.com/', {waitUntil: 'load'});
-		global.Zapi = page;
-		global.Browser = browser;
+		  const Zapi = req.Zapi 
+      await Zapi.launch()
       return res.send({message:'Browser started',status:1}).status(200)
     } catch(error) {
       next(error)
@@ -52,7 +46,7 @@ module.exports = {
 	async screenshot(req, res, next) {
     try {
 			const Zapi = req.Zapi
-			const base64 = await Zapi.screenshot({ encoding: "base64" })
+			const base64 = await Zapi.screenShot()
 
 			const img = Buffer.from(base64, 'base64');
 

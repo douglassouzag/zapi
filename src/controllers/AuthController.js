@@ -3,15 +3,8 @@ module.exports = {
       try {
         const Zapi = req.Zapi
 
-        try{
-          await Zapi.click('div[class="_2pf2n"]');
-        } catch (error){
-
-        }
-
-        const qrcode = await Zapi.evaluate(() => {
-          return document.querySelector('canvas').toDataURL()
-        })
+        const qrcode = await Zapi.getQRCodeBase64()
+        await Zapi.logQRCode()
         const img = new Buffer.from(qrcode.split(",")[1], 'base64');
 
         res.writeHead(200, {

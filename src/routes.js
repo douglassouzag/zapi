@@ -7,7 +7,7 @@ const BrowserController = require('./controllers/BrowserController')
 const ChatController = require('./controllers/ChatController')
 const AuthController = require('./controllers/AuthController')
 
-routes.get('/qrcode',CheckConn,CheckPage.isAuthPage,AuthController.getQRCODE)
+routes.get('/qrcode',CheckConn,AuthController.getQRCODE)
 
 routes.get('/close',CheckConn,BrowserController.close)
 routes.get('/kill',CheckConn,BrowserController.kill)

@@ -4,10 +4,8 @@ module.exports = {
 
             const Zapi = req.Zapi
            
-            await Zapi.waitForSelector('div[title="Nova conversa"]', {
-              visible: true,
-            })
-    
+            await Zapi.isConnected(30000)
+            
             next()
             
         } catch (error){
@@ -16,13 +14,10 @@ module.exports = {
     },
     async isAuthPage(req, res, next) {
         try{
-
+            
             const Zapi = req.Zapi
-           
-            await Zapi.waitForSelector('canvas', {
-              visible: true,
-              timeout: 5000,
-            })
+            
+            await Zapi.isInAuthPage(30000)
     
             next()
             
